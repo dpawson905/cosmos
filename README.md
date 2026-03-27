@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# COSMOS - Space Exploration Dashboard
 
-## Getting Started
+A real-time space exploration dashboard powered by NASA, SpaceX, and other space APIs. Features 3D globe visualizations, live ISS tracking, Starlink constellation mapping, solar weather monitoring, and more.
 
-First, run the development server:
+## Features
+
+- **Home** - NASA Astronomy Picture of the Day (APOD) hero with daily space imagery
+- **Gallery** - 3D perspective carousel browsing 140,000+ NASA images (Mars, Earth, Deep Space, ISS)
+- **Near Earth Objects** - Interactive 3D asteroid tracker with real orbital data, sortable hazard table
+- **ISS Live Tracker** - Real-time 3D ISS tracking with NASA's official ISS model, smooth interpolation, proportional orbit
+- **Starlink Constellation** - 3,000+ Starlink satellites plotted on a 3D globe from real orbital data
+- **SpaceX Launches** - Live launch timeline with countdown timers from Launch Library 2
+- **Solar Weather** - Solar flare timeline, CME events, geomagnetic storm tracking with animated sun
+
+### Visual Features
+
+- 4 Star Wars-inspired themes (Jedi Order, Sith Empire, Rebel Alliance, Galactic Empire) via FAB speed dial
+- Real sun position calculated from UTC time (accurate day/night terminator)
+- NASA Blue Marble 4K Earth texture on all 3D globes
+- Fresnel atmosphere rim glow shader
+- Responsive sidebar (collapsible on desktop, drawer on mobile)
+
+## Tech Stack
+
+- **Next.js 16** (App Router, Server Components, Route Handlers)
+- **React 19** + **TypeScript**
+- **Tailwind CSS v4** + **daisyUI 5**
+- **React Three Fiber** + **drei** (3D visualizations)
+- **Three.js** (WebGL)
+
+## APIs Used
+
+| API | Auth | Used For |
+|-----|------|----------|
+| [NASA APOD](https://api.nasa.gov/) | API Key | Astronomy Picture of the Day |
+| [NASA Image Library](https://images.nasa.gov/) | None | Image gallery search |
+| [NASA NeoWs](https://api.nasa.gov/) | API Key | Near-Earth asteroid data |
+| [NASA DONKI](https://api.nasa.gov/) | API Key | Solar flares, CMEs, geomagnetic storms |
+| [Where The ISS At](https://wheretheiss.at/) | None | Real-time ISS position |
+| [Launch Library 2](https://thespacedevs.com/) | None | Rocket launch data |
+| [SpaceX API](https://github.com/r-spacex/SpaceX-API) | None | Starlink satellite orbital data |
+
+## Quick Start (Docker)
+
+Pull and run the pre-built image from GitHub Container Registry:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker run -d \
+  -p 3000:3000 \
+  -e NASA_API_KEY=your_key_here \
+  --name cosmos \
+  ghcr.io/dpawson905/cosmos:latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Docker Compose
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```yaml
+services:
+  cosmos:
+    image: ghcr.io/dpawson905/cosmos:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NASA_API_KEY=your_key_here
+    restart: unless-stopped
+```
 
-## Learn More
+### Portainer
 
-To learn more about Next.js, take a look at the following resources:
+1. Go to **Stacks** > **Add Stack**
+2. Paste the docker-compose above
+3. Set `NASA_API_KEY` in the environment variables
+4. Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Install dependencies
+npm install
 
-## Deploy on Vercel
+# Create .env file
+echo 'NASA_API_KEY="your_key_here"' > .env
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Run dev server
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Get a free NASA API key at https://api.nasa.gov/
+
+## Building from Source
+
+```bash
+# Build Docker image
+docker build --build-arg NASA_API_KEY=your_key -t cosmos .
+
+# Run
+docker run -d -p 3000:3000 -e NASA_API_KEY=your_key cosmos
+```
+
+## Security
+
+- NASA API key is **server-side only** (never exposed to client)
+- All API routes have **in-memory caching** (multiple users share one upstream call)
+- **Rate limiting** per IP on all routes (60 req/min default)
+- **Input validation** on all query parameters (dates, pagination, mode params)
+- Image domains restricted to specific hostnames (no wildcards)
+
+## GitHub Actions
+
+Pushing to `main` automatically builds and publishes a Docker image to `ghcr.io/dpawson905/cosmos:latest`. Set `NASA_API_KEY` as a repository secret.
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NASA_API_KEY` | Yes | Free API key from https://api.nasa.gov/ |
+
+## License
+
+MIT
