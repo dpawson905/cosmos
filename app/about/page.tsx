@@ -1,6 +1,6 @@
 export default function AboutPage() {
   return (
-    <div className="p-4 pt-14 lg:pt-4 md:p-6 space-y-6 max-w-3xl">
+    <div className="p-4 md:p-6 space-y-6 max-w-3xl">
       <h1 className="text-3xl font-bold">About COSMOS</h1>
 
       <div className="card bg-base-200">

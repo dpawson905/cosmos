@@ -36,13 +36,13 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile hamburger button */}
+      {/* Mobile menu button — bottom-left, thumb-friendly */}
       <button
-        className="fixed top-3 left-3 z-50 btn btn-sm btn-ghost lg:hidden"
+        className="fixed bottom-6 left-4 z-50 btn btn-circle btn-primary shadow-lg lg:hidden"
         onClick={() => setMobileOpen(true)}
         aria-label="Open navigation"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-5 h-5 stroke-current">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>

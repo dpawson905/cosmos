@@ -17,7 +17,7 @@ export default function GalleryPage() {
   const activeTabData = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <div className="p-4 pt-14 lg:pt-4 md:p-6 space-y-4">
+    <div className="p-4 md:p-6 space-y-4">
       <h1 className="text-3xl font-bold">Gallery</h1>
       <p className="text-base-content/60">
         Browse NASA&apos;s image library — over 140,000 photos from across the cosmos.

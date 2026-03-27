@@ -73,6 +73,42 @@ function Sun({ radius: earthRadius = 5 }: { radius?: number }) {
   );
 }
 
+function CloudLayer({ radius, rotationSpeed }: { radius: number; rotationSpeed: number }) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const [cloudTexture, setCloudTexture] = useState<THREE.Texture | null>(null);
+
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    loader.load(
+      "https://clouds.matteason.co.uk/images/2048x1024/clouds-alpha.png",
+      (tex) => setCloudTexture(tex),
+      undefined,
+      () => {} // Silently fail — clouds are optional
+    );
+  }, []);
+
+  useFrame((_, delta) => {
+    if (meshRef.current) meshRef.current.rotation.y += delta * rotationSpeed;
+  });
+
+  if (!cloudTexture) return null;
+
+  return (
+    <mesh ref={meshRef} scale={1.005}>
+      <sphereGeometry args={[radius, 64, 64]} />
+      <meshStandardMaterial
+        map={cloudTexture}
+        alphaMap={cloudTexture}
+        transparent
+        opacity={0.6}
+        depthWrite={false}
+        roughness={1}
+        metalness={0}
+      />
+    </mesh>
+  );
+}
+
 function TexturedEarth({ radius, rotationSpeed }: { radius: number; rotationSpeed: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const texture = useTexture("/earth-map.jpg");
@@ -82,10 +118,13 @@ function TexturedEarth({ radius, rotationSpeed }: { radius: number; rotationSpee
   });
 
   return (
+    <>
     <mesh ref={meshRef}>
       <sphereGeometry args={[radius, 64, 64]} />
       <meshStandardMaterial map={texture} roughness={0.65} metalness={0.05} />
     </mesh>
+    <CloudLayer radius={radius} rotationSpeed={rotationSpeed} />
+    </>
   );
 }
 

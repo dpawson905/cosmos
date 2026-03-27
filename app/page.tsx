@@ -10,7 +10,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="p-4 pt-14 lg:pt-4 md:p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       {/* APOD Hero */}
       {apod ? (
         <div className="card bg-base-200 overflow-hidden">

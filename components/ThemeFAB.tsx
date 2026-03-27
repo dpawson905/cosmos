@@ -5,13 +5,16 @@ import { themes, DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/themes";
 
 export default function ThemeFAB() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState(DEFAULT_THEME);
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
+    }
+    return DEFAULT_THEME;
+  });
 
   useEffect(() => {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
-    setCurrentTheme(saved);
-    document.documentElement.setAttribute("data-theme", saved);
-  }, []);
+    document.documentElement.setAttribute("data-theme", currentTheme);
+  }, [currentTheme]);
 
   const selectTheme = useCallback((themeName: string) => {
     setCurrentTheme(themeName);
@@ -33,7 +36,7 @@ export default function ThemeFAB() {
         />
       )}
 
-      <div className="fixed bottom-6 right-4 md:right-6 z-50 flex flex-col-reverse items-end gap-3">
+      <div className="fixed bottom-12 right-4 md:right-6 z-50 flex flex-col-reverse items-end gap-3">
         {/* Main FAB */}
         <button
           onClick={() => setIsOpen((o) => !o)}

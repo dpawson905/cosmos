@@ -2,7 +2,7 @@
 
 import { Suspense, useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Stars, Html, Line, useGLTF } from "@react-three/drei";
+import { OrbitControls, Stars, Line, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import type { ISSPosition } from "@/lib/space";
 import EarthGlobe from "./EarthGlobe";
@@ -54,7 +54,106 @@ function lerpPosition(
 
 function ISSModel() {
   const { scene } = useGLTF("/iss.glb");
-  return <primitive object={scene.clone()} />;
+  const cloned = scene.clone();
+
+  const toRemove: THREE.Object3D[] = [];
+  cloned.traverse((child) => {
+    if (child.name.startsWith("bendedtru") || child.name.startsWith("pCylinder")) {
+      toRemove.push(child);
+      return;
+    }
+    if ((child as THREE.Mesh).isMesh) {
+      const mesh = child as THREE.Mesh;
+      const mat = mesh.material as THREE.MeshStandardMaterial;
+      if (mat.isMeshStandardMaterial) {
+        mat.metalness = 0.7;
+        mat.roughness = 0.3;
+        mat.envMapIntensity = 1.5;
+        mat.needsUpdate = true;
+      }
+    }
+  });
+  toRemove.forEach((obj) => obj.removeFromParent());
+
+  return <primitive object={cloned} />;
+}
+
+// Warm interior window glow along the modules
+function ISSWindowLights() {
+  const positions: [number, number, number][] = [
+    [0, -0.01, 0],
+    [0.03, -0.01, 0.01],
+    [-0.03, -0.01, -0.01],
+    [0.06, -0.01, 0],
+    [-0.06, -0.01, 0],
+  ];
+
+  return (
+    <group>
+      {positions.map((pos, i) => (
+        <mesh key={i} position={pos}>
+          <sphereGeometry args={[0.004, 8, 8]} />
+          <meshBasicMaterial color="#ffeebb" transparent opacity={0.9} />
+        </mesh>
+      ))}
+      {/* Soft warm glow from interior — no visible sphere, just light */}
+      <pointLight color="#ffeebb" intensity={0.3} distance={0.3} decay={2} position={[0, -0.01, 0]} />
+    </group>
+  );
+}
+
+// Blinking navigation lights — red port, green starboard, white strobes
+function ISSNavLights() {
+  const redRef = useRef<THREE.Mesh>(null);
+  const greenRef = useRef<THREE.Mesh>(null);
+  const strobeRef1 = useRef<THREE.Mesh>(null);
+  const strobeRef2 = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    // Nav lights blink at ~1Hz
+    const navBlink = Math.sin(t * 6) > 0.3 ? 1 : 0.1;
+    // Strobes flash quickly every ~1.5 seconds
+    const strobeBlink = Math.sin(t * 4) > 0.9 ? 1 : 0.05;
+
+    if (redRef.current) {
+      (redRef.current.material as THREE.MeshBasicMaterial).opacity = navBlink;
+    }
+    if (greenRef.current) {
+      (greenRef.current.material as THREE.MeshBasicMaterial).opacity = navBlink;
+    }
+    if (strobeRef1.current) {
+      (strobeRef1.current.material as THREE.MeshBasicMaterial).opacity = strobeBlink;
+    }
+    if (strobeRef2.current) {
+      (strobeRef2.current.material as THREE.MeshBasicMaterial).opacity = strobeBlink;
+    }
+  });
+
+  return (
+    <group>
+      {/* Red — port (left) */}
+      <mesh ref={redRef} position={[-0.1, 0, 0]}>
+        <sphereGeometry args={[0.003, 6, 6]} />
+        <meshBasicMaterial color="#ff0000" transparent />
+      </mesh>
+      {/* Green — starboard (right) */}
+      <mesh ref={greenRef} position={[0.1, 0, 0]}>
+        <sphereGeometry args={[0.003, 6, 6]} />
+        <meshBasicMaterial color="#00ff00" transparent />
+      </mesh>
+      {/* White strobe — fore */}
+      <mesh ref={strobeRef1} position={[0, 0, 0.08]}>
+        <sphereGeometry args={[0.002, 6, 6]} />
+        <meshBasicMaterial color="#ffffff" transparent />
+      </mesh>
+      {/* White strobe — aft */}
+      <mesh ref={strobeRef2} position={[0, 0, -0.08]}>
+        <sphereGeometry args={[0.002, 6, 6]} />
+        <meshBasicMaterial color="#ffffff" transparent />
+      </mesh>
+    </group>
+  );
 }
 
 type InterpolatedPos = { lat: number; lon: number; alt: number };
@@ -93,30 +192,13 @@ function ISSMarker({ from, to, fetchTime, interval }: {
 
   return (
     <group ref={groupRef}>
-      <Suspense fallback={
-        <mesh>
-          <sphereGeometry args={[0.12, 16, 16]} />
-          <meshStandardMaterial color="#ffd740" emissive="#ffd740" emissiveIntensity={2} />
-        </mesh>
-      }>
+      <Suspense fallback={null}>
         <group scale={0.025}>
           <ISSModel />
+          <ISSWindowLights />
+          <ISSNavLights />
         </group>
       </Suspense>
-      <pointLight color="#ffd740" intensity={3} distance={4} />
-      <Html center distanceFactor={15}>
-        <div style={{
-          color: "#ffd740",
-          fontSize: 10,
-          fontFamily: "monospace",
-          whiteSpace: "nowrap",
-          textShadow: "0 0 8px rgba(255,215,64,0.5)",
-          pointerEvents: "none",
-          transform: "translateY(-20px)",
-        }}>
-          ISS
-        </div>
-      </Html>
     </group>
   );
 }
