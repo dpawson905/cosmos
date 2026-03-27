@@ -1,4 +1,4 @@
-# COSMOS - Space Exploration Dashboard
+# COSMOS - Space Exploration Dashboard!
 
 A real-time space exploration dashboard powered by NASA, SpaceX, and other space APIs. Features 3D globe visualizations, live ISS tracking, Starlink constellation mapping, solar weather monitoring, and more.
 
