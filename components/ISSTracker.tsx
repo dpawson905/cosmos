@@ -162,7 +162,7 @@ function ISSMarker({ from, to, fetchTime, interval }: {
   return (
     <group ref={groupRef}>
       <Suspense fallback={null}>
-        <group scale={0.025}>
+        <group scale={0.025} rotation={[0, Math.PI / 2, 0]}>
           <ISSModel />
           <ISSLights />
         </group>
