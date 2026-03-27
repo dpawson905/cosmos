@@ -5,6 +5,7 @@ import { SidebarProvider } from "@/components/SidebarContext";
 import Sidebar from "@/components/Sidebar";
 import MainContent from "@/components/MainContent";
 import ThemeFAB from "@/components/ThemeFAB";
+import SuppressThreeWarnings from "@/components/SuppressThreeWarnings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
           <Sidebar />
           <MainContent>{children}</MainContent>
           <ThemeFAB />
+          <SuppressThreeWarnings />
         </SidebarProvider>
       </body>
     </html>

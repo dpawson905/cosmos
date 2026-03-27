@@ -5,16 +5,21 @@ import { themes, DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/themes";
 
 export default function ThemeFAB() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
-    }
-    return DEFAULT_THEME;
-  });
+  const [currentTheme, setCurrentTheme] = useState(DEFAULT_THEME);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", currentTheme);
-  }, [currentTheme]);
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
+    setCurrentTheme(saved);
+    document.documentElement.setAttribute("data-theme", saved);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute("data-theme", currentTheme);
+    }
+  }, [currentTheme, mounted]);
 
   const selectTheme = useCallback((themeName: string) => {
     setCurrentTheme(themeName);
