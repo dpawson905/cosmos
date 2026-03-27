@@ -46,13 +46,13 @@ Pull and run the pre-built image from GitHub Container Registry:
 
 ```bash
 docker run -d \
-  -p 3000:3000 \
+  -p 4947:4947 \
   -e NASA_API_KEY=your_key_here \
   --name cosmos \
   ghcr.io/dpawson905/cosmos:latest
 ```
 
-Then open http://localhost:3000
+Then open http://localhost:4947
 
 ### Docker Compose
 
@@ -61,7 +61,7 @@ services:
   cosmos:
     image: ghcr.io/dpawson905/cosmos:latest
     ports:
-      - "3000:3000"
+      - "4947:4947"
     environment:
       - NASA_API_KEY=your_key_here
     restart: unless-stopped
@@ -96,7 +96,7 @@ Get a free NASA API key at https://api.nasa.gov/
 docker build --build-arg NASA_API_KEY=your_key -t cosmos .
 
 # Run
-docker run -d -p 3000:3000 -e NASA_API_KEY=your_key cosmos
+docker run -d -p 4947:4947 -e NASA_API_KEY=your_key cosmos
 ```
 
 ## Security
