@@ -9,12 +9,12 @@ A real-time space exploration dashboard powered by NASA, SpaceX, and other space
 - **Near Earth Objects** - Interactive 3D asteroid tracker with real orbital data, sortable hazard table
 - **ISS Live Tracker** - Real-time 3D ISS tracking with NASA's official ISS model, smooth interpolation, proportional orbit
 - **Starlink Constellation** - 3,000+ Starlink satellites plotted on a 3D globe from real orbital data
-- **SpaceX Launches** - Live launch timeline with countdown timers from Launch Library 2
+- **Rocket Launches** - Live launch timeline with countdown timers from Launch Library 2
 - **Solar Weather** - Solar flare timeline, CME events, geomagnetic storm tracking with animated sun
 
 ### Visual Features
 
-- 4 Star Wars-inspired themes (Jedi Order, Sith Empire, Rebel Alliance, Galactic Empire) via FAB speed dial
+- 4 space-inspired themes (Blue Nebula, Red Giant, Deep Orbit, Lunar Base) via FAB speed dial
 - Real sun position calculated from UTC time (accurate day/night terminator)
 - NASA Blue Marble 4K Earth texture on all 3D globes
 - Fresnel atmosphere rim glow shader

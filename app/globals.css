@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-/* ===== Jedi Order (Light) — Default Theme ===== */
+/* ===== Blue Nebula (Light) — Default Theme ===== */
 @plugin "daisyui/theme" {
-  name: "jedi-order";
+  name: "blue-nebula";
   default: true;
   color-scheme: light;
   --color-base-100: oklch(97% 0.01 240);
@@ -34,9 +34,9 @@
   --noise: 0;
 }
 
-/* ===== Sith Empire (Dark) ===== */
+/* ===== Red Giant (Dark) ===== */
 @plugin "daisyui/theme" {
-  name: "sith-empire";
+  name: "red-giant";
   color-scheme: dark;
   --color-base-100: oklch(12% 0.02 15);
   --color-base-200: oklch(9% 0.025 15);
@@ -66,9 +66,9 @@
   --noise: 0;
 }
 
-/* ===== Rebel Alliance (Dark) — prefers-dark ===== */
+/* ===== Deep Orbit (Dark) — prefers-dark ===== */
 @plugin "daisyui/theme" {
-  name: "rebel-alliance";
+  name: "deep-orbit";
   prefersdark: true;
   color-scheme: dark;
   --color-base-100: oklch(15% 0.025 250);
@@ -99,9 +99,9 @@
   --noise: 0;
 }
 
-/* ===== Galactic Empire (Light) ===== */
+/* ===== Lunar Base (Light) ===== */
 @plugin "daisyui/theme" {
-  name: "galactic-empire";
+  name: "lunar-base";
   color-scheme: light;
   --color-base-100: oklch(95% 0.005 250);
   --color-base-200: oklch(90% 0.008 250);

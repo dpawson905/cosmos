@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "COSMOS — Explore Space with NASA",
+  title: "COSMOS — Space Exploration Dashboard",
   description:
-    "A space-themed website featuring NASA imagery, Mars Rover photos, Earth views, and asteroid tracking.",
+    "A space exploration dashboard featuring astronomy imagery, Mars Rover photos, Earth views, and asteroid tracking.",
 };
 
 export default function RootLayout({

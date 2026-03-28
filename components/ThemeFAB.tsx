@@ -52,7 +52,7 @@ export default function ThemeFAB() {
           {isOpen ? "✕" : currentIcon}
         </button>
 
-        {/* Faction options */}
+        {/* Theme options */}
         {themes.map((theme, i) => (
           <button
             key={theme.name}

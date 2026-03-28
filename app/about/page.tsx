@@ -65,14 +65,14 @@ export default function AboutPage() {
         <div className="card-body">
           <h2 className="card-title">Themes</h2>
           <p className="text-base-content/70 leading-relaxed">
-            COSMOS features four Star Wars-inspired themes. Click the 🎨
+            COSMOS features four space-inspired themes. Click the 🎨
             button in the bottom-right corner to switch between:
           </p>
           <ul className="list-disc list-inside text-base-content/70 space-y-1 mt-2">
-            <li>⚔️ <strong>Jedi Order</strong> — Light, blue &amp; green sabers</li>
-            <li>⚡ <strong>Sith Empire</strong> — Dark, red saber intensity</li>
-            <li>🔥 <strong>Rebel Alliance</strong> — Dark, warm orange &amp; navy</li>
-            <li>🏛️ <strong>Galactic Empire</strong> — Light, steel precision</li>
+            <li>🌌 <strong>Blue Nebula</strong> — Light, cool blues &amp; greens</li>
+            <li>⚡ <strong>Red Giant</strong> — Dark, warm red intensity</li>
+            <li>🔥 <strong>Deep Orbit</strong> — Dark, warm orange &amp; navy</li>
+            <li>🏛️ <strong>Lunar Base</strong> — Light, steel precision</li>
           </ul>
         </div>
       </div>

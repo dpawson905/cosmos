@@ -6,11 +6,11 @@ export type Theme = {
 };
 
 export const themes: Theme[] = [
-  { name: "jedi-order", label: "Jedi Order", icon: "\u2694\uFE0F", colorScheme: "light" },
-  { name: "sith-empire", label: "Sith Empire", icon: "\u26A1", colorScheme: "dark" },
-  { name: "rebel-alliance", label: "Rebel Alliance", icon: "\uD83D\uDD25", colorScheme: "dark" },
-  { name: "galactic-empire", label: "Galactic Empire", icon: "\uD83C\uDFDB\uFE0F", colorScheme: "light" },
+  { name: "blue-nebula", label: "Blue Nebula", icon: "🌌", colorScheme: "light" },
+  { name: "red-giant", label: "Red Giant", icon: "⚡", colorScheme: "dark" },
+  { name: "deep-orbit", label: "Deep Orbit", icon: "🔥", colorScheme: "dark" },
+  { name: "lunar-base", label: "Lunar Base", icon: "🏛️", colorScheme: "light" },
 ];
 
-export const DEFAULT_THEME = "jedi-order";
+export const DEFAULT_THEME = "blue-nebula";
 export const THEME_STORAGE_KEY = "cosmos-theme";
